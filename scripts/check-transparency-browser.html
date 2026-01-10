@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Check Image Transparency</title>
+</head>
+<body>
+    <h1>Checking image transparency...</h1>
+    <pre id="output"></pre>
+    
+    <script type="module">
+        const output = document.getElementById('output');
+        const images = [
+            'horny-meme-01.png',
+            'horny-meme-02.png',
+            'horny-meme-03.png',
+            'horny-meme-04.png',
+            'horny-meme-05.png',
+            'horny-meme-06.png',
+            'horny-meme-07.png',
+            'horny-meme-08.png',
+            'horny-meme-09.png',
+            'G-QxpYjWsAAnlj3.png'
+        ];
+        
+        async function checkTransparency(imageName) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    if (!ctx) {
+                        resolve({ name: imageName, transparent: false });
+                        return;
+                    }
+                    
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                    
+                    try {
+                        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                        const data = imageData.data;
+                        
+                        // Check if any pixel has alpha < 255
+                        for (let i = 3; i < data.length; i += 4) {
+                            if (data[i] < 255) {
+                                resolve({ name: imageName, transparent: true });
+                                return;
+                            }
+                        }
+                        
+                        resolve({ name: imageName, transparent: false });
+                    } catch (error) {
+                        resolve({ name: imageName, transparent: false });
+                    }
+                };
+                
+                img.onerror = () => {
+                    resolve({ name: imageName, transparent: false });
+                };
+                
+                img.src = `/src/assets/horny-meme-pool/${imageName}`;
+            });
+        }
+        
+        async function checkAll() {
+            const results = [];
+            for (const img of images) {
+                const result = await checkTransparency(img);
+                results.push(result);
+                output.textContent += `${result.name}: ${result.transparent ? '✓ Transparent' : '✗ No transparency'}\n`;
+            }
+            
+            const transparent = results.filter(r => r.transparent).map(r => r.name);
+            output.textContent += '\n=== Transparent Images ===\n';
+            transparent.forEach(name => {
+                output.textContent += `${name}\n`;
+            });
+            
+            // Copy to clipboard
+            const json = JSON.stringify(transparent, null, 2);
+            navigator.clipboard.writeText(json).then(() => {
+                output.textContent += '\n✓ Copied to clipboard!\n';
+            });
+        }
+        
+        checkAll();
+    </script>
+</body>
+</html>
+
