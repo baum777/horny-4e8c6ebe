@@ -1,73 +1,60 @@
-# Welcome to your Lovable project
+# 🐿️ Willkommen in den Archiven von Eichhorney
 
-## Project info
+**Eine digitale Odyssee durch das kollektive Gedächtnis.**
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+Dies ist nicht einfach nur eine Bildersammlung. Es ist ein lebendes Archiv, ein kuratierter Strom aus Artefakten, geschmiedet von der Gemeinschaft und bewertet durch das Gesetz der Resonanz. Hier verschwimmen die Grenzen zwischen Schöpfer und Kurator.
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 🔮 Die Vision
 
-**Use Lovable**
+In den Tiefen des Netzes entstehen täglich tausende flüchtige Momente. Wir fangen sie ein.
+Das **Projekt Eichhorney** ist ein Experiment in spielerischer Archivierung. Unser Ziel ist es, eine sich selbst regulierende Bibliothek der Meme-Kultur aufzubauen – angetrieben von Kreativität, Humor und einem Hauch von Wahnsinn.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Wir glauben daran, dass das Sammeln von "digitalen Artefakten" mehr ist als bloßes Speichern. Es ist ein Ritual.
 
-Changes made via Lovable will be committed automatically to this repo.
+---
 
-**Use your preferred IDE**
+## 🌀 Das Ritual (Wie du teilnimmst)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Deine Reise durch die Archive folgt einem ewigen Kreislauf. Jede Handlung hinterlässt Spuren und formt den Bestand.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 1. Schmieden (The Forge)
+Alles beginnt im Feuer der Meta-Schmiede. Hier erschaffst du neue Artefakte. Ob durch Zufall oder Absicht – was du hier findest, ist der Rohstoff für die Zukunft.
 
-Follow these steps:
+### 2. Freilassen (Release)
+Ein Artefakt zu besitzen ist nur der Anfang. Um wirklich Teil der Geschichte zu werden, musst du es **freilassen**. Damit übergibst du es den Archiven und der Bewertung durch die Gemeinschaft.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### 3. Bewerten (Vote)
+Nicht alles, was glänzt, ist Gold. Als Hüter der Archive ist es deine Pflicht, die Qualität zu sichern. Deine Stimme entscheidet, was an der Oberfläche treibt und was in der Versenkung verschwindet.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+---
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 🏆 Dein Aufstieg
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+In den Archiven bleibst du nicht unbemerkt. Das System beobachtet. Das System belohnt.
 
-**Edit a file directly in GitHub**
+### Erfahrung & Level
+Jede Interaktion – sei es ein geschmiedetes Werk, eine abgegebene Stimme oder ein täglicher Besuch – nährt deinen Status. Du beginnst als Novize, doch der Weg zu den höheren Ebenen steht jedem offen, der Ausdauer beweist.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Sigillen & Abzeichen
+Besondere Taten werden mit dauerhaften Auszeichnungen geehrt:
+*   **Sigillen:** Für die ersten Schritte deiner Reise (das erste Schmieden, das erste Loslassen).
+*   **Stempel (Stamps):** Wenn deine Artefakte die Massen bewegen und zum Trend werden.
+*   **Fragmente:** Für jene, die beständig wiederkehren und dem Archiv die Treue halten.
+*   **Objekte:** Geheimnisvolle Trophäen für die wahren Kenner der Kultur (#CroisHorney, #EichHorney).
 
-**Use GitHub Codespaces**
+---
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 🌟 Werde Teil des Schwarms
 
-## What technologies are used for this project?
+Das Archiv lebt von seinen Hütern. Es gibt keine Zuschauer, nur Teilnehmer.
+Tauche ein, entdecke verborgene Schätze und hilf uns, die ultimative Sammlung zu kuratieren.
 
-This project is built with:
+**Der Bau erwartet dich.**
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+---
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+### 🛠️ Technische Notiz
+*Dieses Projekt ist eine web-basierte Plattform zur gamifizierten Kuratierung von Inhalten.*
+*Benötigt: Neugier und einen Browser.*
