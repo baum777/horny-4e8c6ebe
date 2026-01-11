@@ -27,7 +27,7 @@ export function validateAction(
 ): ValidationResult {
   // 1. Basic payload validation
   switch (action) {
-    case 'vote':
+    case 'vote': {
       if (!payload.artifactId) {
         return { valid: false, reason: 'vote requires artifactId' };
       }
@@ -40,6 +40,7 @@ export function validateAction(
       }
       cooldownMap.set(voteCooldownKey, Date.now());
       break;
+    }
 
     case 'comment':
       if (!payload.artifactId) {
@@ -78,7 +79,7 @@ export function validateAction(
       // TODO: Validate ownership/creation proof server-side
       break;
 
-    case 'quiz_complete':
+    case 'quiz_complete': {
       if (!payload.quizClassId || !payload.quizVector) {
         return { valid: false, reason: 'quiz_complete requires quizClassId and quizVector' };
       }
@@ -99,6 +100,7 @@ export function validateAction(
         }
       }
       break;
+    }
 
     case 'forge':
     case 'meme_create':

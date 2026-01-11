@@ -34,7 +34,26 @@ export function defaultUserStats(userId: string): UserStats {
   };
 }
 
-function dbToUserStats(row: any): UserStats {
+interface DbUserStatsRow {
+  user_id: string;
+  counts?: Record<string, unknown>;
+  total_votes_received?: number;
+  total_time_seconds?: number;
+  quiz_class?: string;
+  degen?: number;
+  horny?: number;
+  conviction?: number;
+  current_streak?: number;
+  last_active_at?: string;
+  lifetime_horny_earned?: number;
+  daily_horny_earned?: number;
+  weekly_horny_earned?: number;
+  level?: number;
+  unlocked_badges?: string[];
+  unlocked_features?: string[];
+}
+
+function dbToUserStats(row: DbUserStatsRow): UserStats {
   return {
     userId: row.user_id,
     counts: row.counts || {},
@@ -55,7 +74,26 @@ function dbToUserStats(row: any): UserStats {
   };
 }
 
-function userStatsToDb(stats: UserStats): any {
+interface DbUserStatsInsert {
+  user_id: string;
+  level: number;
+  lifetime_horny_earned: number;
+  daily_horny_earned: number;
+  weekly_horny_earned: number;
+  current_streak: number;
+  last_active_at: string | null;
+  quiz_class?: string;
+  degen?: number;
+  horny?: number;
+  conviction?: number;
+  counts: Record<string, unknown>;
+  total_votes_received: number;
+  total_time_seconds: number;
+  unlocked_badges: string[];
+  unlocked_features: string[];
+}
+
+function userStatsToDb(stats: UserStats): DbUserStatsInsert {
   return {
     user_id: stats.userId,
     level: stats.level,
@@ -131,7 +169,7 @@ export class GamificationStoreSupabase {
     return !!data && !error;
   }
 
-  async getCachedResponse(userId: string, idemKey: string): Promise<{ stats: UserStats; result: any } | null> {
+  async getCachedResponse(userId: string, idemKey: string): Promise<{ stats: UserStats; result: unknown } | null> {
     const { data, error } = await this.supabase
       .from('idempotency_keys')
       .select('response_cache')
@@ -140,7 +178,7 @@ export class GamificationStoreSupabase {
       .single();
 
     if (error || !data?.response_cache) return null;
-    return data.response_cache as { stats: UserStats; result: any };
+    return data.response_cache as { stats: UserStats; result: unknown };
   }
 
   async markProcessed(
@@ -148,7 +186,7 @@ export class GamificationStoreSupabase {
     idemKey: string,
     action: string,
     eventId: string,
-    responseCache?: { stats: UserStats; result: any }
+    responseCache?: { stats: UserStats; result: unknown }
   ): Promise<void> {
     const { error } = await this.supabase
       .from('idempotency_keys')
@@ -178,11 +216,11 @@ export class GamificationStoreSupabase {
     stats: UserStats,
     eventData: {
       action: string;
-      payload: any;
+      payload: unknown;
       deltaHorny: number;
       levelBefore: number;
       levelAfter: number;
-      capsApplied: any;
+      capsApplied: Record<string, unknown>;
       badgesUnlocked: string[];
       featuresUnlocked: string[];
       status: 'applied' | 'rejected';
@@ -245,7 +283,7 @@ export class GamificationStoreSupabase {
     const needsWeeklyReset = !lastResetWeek || startOfWeek(lastResetWeek) !== weekISO;
 
     if (needsDailyReset || needsWeeklyReset) {
-      const updates: any = {};
+      const updates: Record<string, unknown> = {};
       const newCounts = { ...stats.counts };
 
       if (needsDailyReset) {

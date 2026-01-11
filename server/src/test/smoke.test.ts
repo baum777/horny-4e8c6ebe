@@ -136,11 +136,13 @@ describe('smoke tests', () => {
       next();
     };
 
+    const SupabaseClient = (await import('@supabase/supabase-js')).createClient;
+    type SupabaseClientType = ReturnType<typeof SupabaseClient<Database>>;
     app = await createApp({
       forgeController: new MockForgeController() as unknown as ForgeController,
       authMiddleware,
       awardEvent: awardEventMock,
-      supabaseAdmin: supabaseMock as unknown as ReturnType<typeof import('@supabase/supabase-js')['createClient']<Database>>,
+      supabaseAdmin: supabaseMock as unknown as SupabaseClientType,
     });
 
     const originalFetch = globalThis.fetch;
