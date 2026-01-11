@@ -1,73 +1,51 @@
-# Welcome to your Lovable project
+# $HORNY
 
-## Project info
+$HORNY is not a game. It is a system for structured participation, signaling, and alignment within a volatile market environment.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+This repository contains the constitutional logic and interfaces for the $HORNY ecosystem. It serves as the framework within which participants demonstrate conviction and validate their status within the hierarchy.
 
-## How can I edit this code?
+## The Law of Horny
 
-There are several ways of editing your application.
+The system operates under a set of implicit laws that govern and evaluate participant behavior. These laws are not punitive but ordering. They separate signal from noise.
 
-**Use Lovable**
+1.  **Presence is Mandatory**
+    Passive observation is tolerated but not rewarded. Status is granted only to those who actively interact with the system.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+2.  **Creativity is Currency**
+    The ability to forge memes and cultural artifacts is valued as a direct contribution to network stability.
 
-Changes made via Lovable will be committed automatically to this repo.
+3.  **Truth through Consistency**
+    Short-term attention is worthless. The system rewards those who demonstrate engagement over time ("Time Spent", "Alerts").
 
-**Use your preferred IDE**
+## Participation & Progression
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Participants in the $HORNY system undergo a defined evolution. Every step is a deliberate action that integrates the participant deeper into the system's internal logic.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Ascension is not accidental but requires proof of specific attributes:
 
-Follow these steps:
+*   **Self-Discovery (Quiz):** The entry point. A diagnostic process that calibrates the participant into a class—from the hesitant "Beta Horny" to the transcendent "Meta Demon".
+*   **Creation (Meme Forge):** The active contribution. Tools for generating visual propaganda that reinforce the system's narrative consistency.
+*   **Vigilance (FOMO Tracker):** The discipline. Setting alerts and signals proves readiness to react to market shifts.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Gamification as Structure
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+What appears superficially as "gamification" is in reality an ordering mechanism. Badges, levels, and ranks are not entertainment rewards but cryptographically verifiable signals of alignment.
 
-# Step 3: Install the necessary dependencies.
-npm i
+*   **Classes (Ranks):** Define the participant's maturity. A "Chart Goblin" operates differently than a "Unicorn Rider".
+*   **Badges:** Serve as permanent proof of performed actions (e.g., "Meme Alchemist" for creators, "Alert Sentinel" for guardians).
+*   **Metrics (Horny Meter):** A quantitative indicator of the current collective intensity.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## Onboarding (Conceptual Flow)
 
-**Edit a file directly in GitHub**
+A new participant experiences a strict sequence of understanding:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+1.  **Entry & Diagnosis:** The user enters the system and is calibrated by the Quiz. Risk tolerance and market understanding determine the starting point.
+2.  **Exploration:** The user navigates the artifacts and tools ("Deep Explorer").
+3.  **Activation:** The user shifts from observer to actor by creating or sharing content.
+4.  **Ascension:** Through repeated interaction and consistency, the user climbs the ranks and unlocks higher privileges of representation.
 
-**Use GitHub Codespaces**
+## Narrative Consistency
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+All modules of this system—from the Quiz to the Forge—serve a single narrative: The transformation of volatile emotion (market psychology) into structured order.
 
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+The system rewards not blind luck, but disciplined obsession. It is a machine that translates "Horny"—the intense desire for success and participation—into a measurable, visible, and tradeable form of status.
