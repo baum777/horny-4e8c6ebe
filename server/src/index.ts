@@ -5,6 +5,7 @@ import { ForgeController } from './controllers/ForgeController';
 import { authMiddleware, requireAuth } from './middleware/auth';
 import eventRouter from './routes/event';
 import { shareApiRouter, shareRedirectRouter } from './routes/share';
+import tokenStatsRouter from './routes/tokenStats';
 
 const app = express();
 const forgeController = new ForgeController();
@@ -33,6 +34,7 @@ app.post('/api/forge', requireAuth, (req, res) => forgeController.forge(req as a
 app.post('/api/forge/release', requireAuth, (req, res) => forgeController.release(req as any, res));
 app.use('/api', eventRouter);
 app.use('/api', shareApiRouter);
+app.use('/api', tokenStatsRouter);
 app.use('/', shareRedirectRouter);
 
 // Error handling
