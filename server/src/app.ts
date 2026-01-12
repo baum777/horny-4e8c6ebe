@@ -1,5 +1,6 @@
 import express, { type RequestHandler } from 'express';
 import cors from 'cors';
+import path from 'path';
 import { config } from './config';
 import type { ForgeController } from './controllers/ForgeController';
 import { authMiddleware as defaultAuthMiddleware, requireAuth as defaultRequireAuth } from './middleware/auth';
@@ -7,6 +8,7 @@ import createEventRouter from './routes/event';
 import createOgRouter from './routes/og';
 import { createShareRouters } from './routes/share';
 import tokenStatsRouter from './routes/tokenStats';
+import { memePoolRouter } from './routes/memePoolRouter';
 
 type AppDependencies = {
   forgeController?: ForgeController;
@@ -38,6 +40,9 @@ export async function createApp(deps: AppDependencies = {}) {
   // Trust proxy for accurate IP addresses
   app.set('trust proxy', true);
 
+  // Static file serving (must be before routes)
+  app.use(express.static(path.join(process.cwd(), 'server', 'public')));
+
   // Auth middleware (optional, allows anonymous)
   app.use(authMiddleware);
 
@@ -52,6 +57,7 @@ export async function createApp(deps: AppDependencies = {}) {
   app.use('/api', eventRouter);
   app.use('/api', shareRouters.shareApiRouter);
   app.use('/api', tokenStatsRouter);
+  app.use('/api', memePoolRouter);
   app.use('/', ogRouter);
   app.use('/', shareRouters.shareRedirectRouter);
 

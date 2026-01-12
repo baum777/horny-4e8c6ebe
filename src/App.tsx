@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { TokenStatsProvider } from "lib/hooks/useTokenStats";
 import { FloatingImages } from "@/components/FloatingImages";
-import { initializeTransparentImages, ALL_PNG_IMAGES } from "@/lib/memePool";
+import { fetchMemePool } from "@/lib/memePool";
 import Index from "./pages/Index";
 import Interact from "./pages/Interact";
 import Legal from "./pages/Legal";
@@ -18,15 +18,25 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [transparentImages, setTransparentImages] = useState<string[]>(ALL_PNG_IMAGES);
+  const [transparentImages, setTransparentImages] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check which images have transparency on mount
-    initializeTransparentImages().then((images) => {
-      if (images.length > 0) {
-        setTransparentImages(images);
-      }
-    });
+    let alive = true;
+    fetchMemePool()
+      .then((list) => {
+        if (!alive) return;
+        setTransparentImages(list);
+      })
+      .catch((e: unknown) => {
+        if (!alive) return;
+        setError(e instanceof Error ? e.message : "Unknown error");
+        console.error("Failed to fetch meme pool:", e);
+      });
+
+    return () => {
+      alive = false;
+    };
   }, []);
 
   return (
