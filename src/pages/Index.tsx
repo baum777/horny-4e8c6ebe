@@ -6,6 +6,7 @@ import LoreSection from '@/components/home/LoreSection';
 import InteractPreview from '@/components/home/InteractPreview';
 import LiveTicker from '@/components/features/LiveTicker';
 import HornyMeter from '@/components/features/HornyMeter';
+import MemeBackground from '@/components/MemeBackground';
 import { addSectionVisited, unlockBadge } from '@/lib/storage';
 
 export default function Index() {
@@ -44,6 +45,7 @@ export default function Index() {
           <rect width="100%" height="100%" filter="url(#noise)" />
         </svg>
       </div>
+      <MemeBackground />
 
       <Navbar />
       
