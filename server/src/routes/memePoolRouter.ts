@@ -5,7 +5,7 @@ import path from "node:path";
 const memePoolRouter = Router();
 
 memePoolRouter.get("/meme-pool", (_req, res) => {
-  const dir = path.join(process.cwd(), "public", "horny-meme-pool");
+  const dir = path.join(process.cwd(), "server", "public", "horny_base");
 
   try {
     const files = fs
@@ -13,7 +13,7 @@ memePoolRouter.get("/meme-pool", (_req, res) => {
       .filter((file) => /^base-.*\.(png|jpe?g|webp|gif)$/i.test(file))
       .sort((a, b) => a.localeCompare(b));
 
-    return res.json({ files });
+    return res.json({ files: files.map((file) => `/horny_base/${file}`) });
   } catch (error) {
     return res.json({ files: [] });
   }
