@@ -352,7 +352,7 @@ dashboardRouter.get("/dashboard", async (req, res) => {
 
     // Parallel fetches (keep under strict time budget)
     const [tokenStats, gamification, rewards] = await Promise.all([
-      fetchTokenStats().catch(() => ({ updatedAt: nowIso() })),
+      fetchTokenStats().catch(() => ({ updatedAt: nowIso(), holders: undefined, priceUsd: undefined, marketCapUsd: undefined })),
       fetchGamificationState(userCtx.id).catch(() => ({
         level: 0,
         xp: { current: 0, next: 50 },
