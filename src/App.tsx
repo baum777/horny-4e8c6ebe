@@ -1,12 +1,9 @@
-import { useEffect, useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { TokenStatsProvider } from "lib/hooks/useTokenStats";
-import { FloatingImages } from "@/components/FloatingImages";
-import { initializeTransparentImages, ALL_PNG_IMAGES } from "@/lib/memePool";
 import { gamificationDemoEnabled } from "@/lib/gamificationFlags";
 import {
   Index,
@@ -22,17 +19,6 @@ import {
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [transparentImages, setTransparentImages] = useState<string[]>(ALL_PNG_IMAGES);
-
-  useEffect(() => {
-    // Check which images have transparency on mount
-    initializeTransparentImages().then((images) => {
-      if (images.length > 0) {
-        setTransparentImages(images);
-      }
-    });
-  }, []);
-
   return (
     <QueryClientProvider client={queryClient}>
       <TokenStatsProvider>
@@ -40,7 +26,6 @@ const App = () => {
           <Toaster />
           <Sonner position="top-center" theme="dark" />
           <div className="relative min-h-screen">
-            <FloatingImages images={transparentImages} />
             <div className="relative z-10">
               <BrowserRouter>
                 <Routes>

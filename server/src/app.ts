@@ -9,6 +9,8 @@ import { createShareRouters } from './routes/share';
 import tokenStatsRouter from './routes/tokenStats';
 import { gamificationRouter } from './routes/gamification';
 import { adminRouter } from './routes/admin';
+import { memePoolRouter } from './routes/memePool';
+import path from 'node:path';
 
 type AppDependencies = {
   forgeController?: ForgeController;
@@ -36,6 +38,7 @@ export async function createApp(deps: AppDependencies = {}) {
   }));
   app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true }));
+  app.use('/horny_base', express.static(path.join(process.cwd(), 'public', 'horny_base')));
 
   // Trust proxy for accurate IP addresses
   app.set('trust proxy', true);
@@ -51,6 +54,7 @@ export async function createApp(deps: AppDependencies = {}) {
   // API Routes
   app.post('/api/forge', requireAuth, (req, res) => forgeController.forge(req as AuthenticatedRequest, res));
   app.post('/api/forge/release', requireAuth, (req, res) => forgeController.release(req as AuthenticatedRequest, res));
+  app.use('/api', memePoolRouter);
   app.use('/api', eventRouter);
   app.use('/api', shareRouters.shareApiRouter);
   app.use('/api', tokenStatsRouter);
