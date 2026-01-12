@@ -18,6 +18,12 @@ import {
   GamificationDemo,
   NotFound,
 } from "./pages";
+import LandingPage from "./pages/LandingPage";
+import DashboardPage from "./pages/DashboardPage";
+import ActionsPage from "./pages/ActionsPage";
+import BadgesPage from "./pages/BadgesPage";
+import RewardsPage from "./pages/RewardsPage";
+import StatusPage from "./pages/StatusPage";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +51,12 @@ const App = () => {
               <BrowserRouter>
                 <Routes>
                   <Route path="/" element={<Index />} />
+                  <Route path="/landing" element={<LandingPage />} />
+                  <Route path="/dashboard" element={<DashboardPage />} />
+                  <Route path="/actions" element={<ActionsPage />} />
+                  <Route path="/badges" element={<BadgesPage />} />
+                  <Route path="/rewards" element={<RewardsPage />} />
+                  <Route path="/status" element={<StatusPage />} />
                   <Route path="/interact" element={<Interact />} />
                   <Route path="/legal" element={<Legal />} />
                   <Route path="/archives" element={<Archives />} />
