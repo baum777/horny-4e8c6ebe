@@ -16,6 +16,7 @@ import {
   ArtifactDetail,
   Profile,
   GamificationDemo,
+  Dashboard,
   NotFound,
 } from "./pages";
 
@@ -50,6 +51,7 @@ const App = () => {
                   <Route path="/archives" element={<Archives />} />
                   <Route path="/archives/:id" element={<ArtifactDetail />} />
                   <Route path="/profile" element={<Profile />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
                   {gamificationDemoEnabled && (
                     <Route path="/gamification" element={<GamificationDemo />} />
                   )}

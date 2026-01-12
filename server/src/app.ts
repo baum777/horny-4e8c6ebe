@@ -1,4 +1,5 @@
 import express, { type RequestHandler } from 'express';
+import path from 'node:path';
 import cors from 'cors';
 import { config } from './config';
 import type { ForgeController } from './controllers/ForgeController';
@@ -9,6 +10,7 @@ import { createShareRouters } from './routes/share';
 import tokenStatsRouter from './routes/tokenStats';
 import { gamificationRouter } from './routes/gamification';
 import { adminRouter } from './routes/admin';
+import memePoolRouter from './routes/memePoolRouter';
 
 type AppDependencies = {
   forgeController?: ForgeController;
@@ -34,6 +36,7 @@ export async function createApp(deps: AppDependencies = {}) {
     origin: process.env.FRONTEND_URL || '*',
     credentials: true,
   }));
+  app.use(express.static(path.join(process.cwd(), 'public')));
   app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true }));
 
@@ -54,6 +57,7 @@ export async function createApp(deps: AppDependencies = {}) {
   app.use('/api', eventRouter);
   app.use('/api', shareRouters.shareApiRouter);
   app.use('/api', tokenStatsRouter);
+  app.use('/api', memePoolRouter);
   app.use('/api/gamification', gamificationRouter);
   app.use('/api/admin', adminRouter);
   app.use('/', ogRouter);
