@@ -12,12 +12,17 @@ type MemeItem = {
   lifeMs: number;
 };
 
-const rand = (min: number, max: number) => Math.random() * (max - min) + min;
-const pick = <T,>(arr: T[]) => arr[Math.floor(Math.random() * arr.length)];
+function rand(min: number, max: number) {
+  return Math.random() * (max - min) + min;
+}
+
+function pick<T>(arr: T[]) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
 
 export default function MemeBackground({
   count = 9,
-  spawnEveryMs = 850,
+  spawnEveryMs = 900,
 }: {
   count?: number;
   spawnEveryMs?: number;
@@ -30,33 +35,33 @@ export default function MemeBackground({
   useEffect(() => {
     let alive = true;
     fetch("/api/meme-pool")
-      .then((response) => response.json())
+      .then((res) => res.json())
       .then((data) => {
         if (!alive) return;
         setPool(Array.isArray(data?.files) ? data.files : []);
       })
       .catch(() => setPool([]));
+
     return () => {
       alive = false;
     };
   }, []);
 
   useEffect(() => {
-    if (pool.length === 0) return undefined;
+    if (pool.length === 0) return;
 
     const tick = (t: number) => {
       if (t - lastSpawnRef.current >= spawnEveryMs) {
         lastSpawnRef.current = t;
-
         setItems((prev) => {
           const now = performance.now();
-          const active = prev.filter((item) => now - item.bornAt < item.lifeMs);
+          const next = prev.slice(-50);
+          const active = next.filter((it) => now - it.bornAt < it.lifeMs);
 
           while (active.length < count) {
-            const src = pick(pool);
             active.push({
               id: `${now}-${Math.random().toString(16).slice(2)}`,
-              src,
+              src: pick(pool),
               x: rand(0, 100),
               y: rand(0, 100),
               size: rand(120, 320),
@@ -66,64 +71,66 @@ export default function MemeBackground({
               lifeMs: rand(4000, 9000),
             });
           }
-          return active.slice(-50);
+
+          return active;
         });
       }
 
       setItems((prev) => {
         const now = performance.now();
-        return prev.filter((item) => now - item.bornAt < item.lifeMs);
+        return prev.filter((it) => now - it.bornAt < it.lifeMs);
       });
 
       rafRef.current = requestAnimationFrame(tick);
     };
 
     rafRef.current = requestAnimationFrame(tick);
+
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, [pool, count, spawnEveryMs]);
 
+  if (pool.length === 0) return null;
+
+  const now = performance.now();
+
   return (
     <div
       aria-hidden
-      style={{
-        position: "fixed",
-        inset: 0,
-        overflow: "hidden",
-        pointerEvents: "none",
-      }}
+      className="pointer-events-none fixed inset-0 overflow-hidden"
     >
-      <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.35)" }} />
-      {items.map((item) => {
-        const age = (performance.now() - item.bornAt) / item.lifeMs;
+      <div className="absolute inset-0 bg-black/35" />
+
+      {items.map((it) => {
+        const age = (now - it.bornAt) / it.lifeMs;
         const fadeIn = Math.min(1, age / 0.18);
         const fadeOut = Math.max(0, (1 - age) / 0.25);
         const opacity = Math.min(fadeIn, fadeOut);
         const scale = 0.85 + 0.25 * Math.sin(Math.min(1, age) * Math.PI);
 
         return (
-          <img
-            key={item.id}
-            src={item.src}
-            alt=""
-            draggable={false}
+          <div
+            key={it.id}
+            className="absolute will-change-transform"
             style={{
-              position: "absolute",
-              left: `${item.x}vw`,
-              top: `${item.y}vh`,
-              width: `${item.size}px`,
-              height: "auto",
-              transform: `translate(-50%, -50%) rotate(${item.rot}deg) scale(${scale})`,
+              left: `${it.x}vw`,
+              top: `${it.y}vh`,
+              width: `${it.size}px`,
+              height: `${it.size}px`,
+              transform: `translate(-50%, -50%) rotate(${it.rot}deg) scale(${scale})`,
               opacity,
-              zIndex: item.z,
-              borderRadius: 16,
-              boxShadow: "0 20px 60px rgba(0,0,0,0.45)",
-              userSelect: "none",
-              willChange: "transform, opacity",
+              zIndex: it.z,
               filter: "saturate(1.1) contrast(1.05)",
             }}
-          />
+          >
+            <img
+              src={it.src}
+              alt=""
+              draggable={false}
+              className="h-full w-full select-none rounded-2xl shadow-2xl"
+            />
+          </div>
         );
       })}
     </div>
