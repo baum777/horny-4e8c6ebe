@@ -75,7 +75,7 @@ export default function Profile() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass-card p-6 rounded-2xl mb-8 neon-border"
+          className="glass-card p-6 rounded-2xl mb-8"
         >
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
             {/* Avatar */}
@@ -83,15 +83,15 @@ export default function Profile() {
               <img
                 src={archivesUser.avatar}
                 alt={archivesUser.handle}
-                className="w-20 h-20 rounded-full object-cover ring-4 ring-primary/30 shadow-[0_0_20px_rgba(236,72,153,0.3)]"
+                className="w-20 h-20 rounded-full object-cover ring-1 ring-border shadow-sm"
               />
             ) : (
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-destructive ring-4 ring-primary/30 shadow-[0_0_20px_rgba(236,72,153,0.3)]" />
+              <div className="w-20 h-20 rounded-full bg-muted ring-1 ring-border shadow-sm" />
             )}
 
             {/* Info */}
             <div className="flex-1">
-              <h1 className="text-2xl font-bold text-gradient">{archivesUser.handle}</h1>
+              <h1 className="text-2xl font-bold text-foreground">{archivesUser.handle}</h1>
               <p className="text-muted-foreground text-sm mt-1">Keeper of Artifacts</p>
             </div>
 
@@ -99,14 +99,14 @@ export default function Profile() {
             <div className="flex gap-8">
               <div className="text-center">
                 <div className="flex items-center justify-center gap-2 text-3xl font-bold">
-                  <Image className="w-6 h-6 text-primary" />
+                  <Image className="w-6 h-6 text-muted-foreground" />
                   {artifacts.length}
                 </div>
                 <p className="text-xs text-muted-foreground uppercase tracking-wider mt-1">Artifacts</p>
               </div>
               <div className="text-center">
                 <div className="flex items-center justify-center gap-2 text-3xl font-bold">
-                  <Heart className="w-6 h-6 text-primary fill-primary" />
+                  <Heart className="w-6 h-6 text-muted-foreground fill-muted-foreground" />
                   {totalVotes}
                 </div>
                 <p className="text-xs text-muted-foreground uppercase tracking-wider mt-1">Desire</p>
@@ -120,7 +120,7 @@ export default function Profile() {
           <div className="glass-card p-5 rounded-2xl flex flex-col justify-between">
             <div>
               <p className="text-xs uppercase tracking-widest text-muted-foreground">Streak</p>
-              <p className="text-3xl font-bold text-gradient mt-2">{streakDays} days</p>
+              <p className="text-3xl font-bold text-foreground mt-2">{streakDays} days</p>
               <p className="text-xs text-muted-foreground mt-2">
                 Return daily to keep the flame alive.
               </p>
@@ -171,5 +171,6 @@ export default function Profile() {
 
       <Footer />
     </div>
+    </PageShell>
   );
 }

@@ -1,8 +1,9 @@
-# Launch Checklist (Fast + Stable)
+# Go-Live Checklist (Fast + Stable)
 
 ## Merge-blocking CI gate
 - [ ] CI workflow runs install, lint, typecheck, and tests; merge blocked on failures.
 - [ ] `npm test` runs the server smoke suite locally and in CI.
+- [ ] `npm run build` completes without warnings or missing env errors.
 
 ## Required environment validation
 - [ ] Server fails fast on missing: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `SHARE_TOKEN_SECRET`, `SITE_URL`, `OPENAI_API_KEY`, and token identifiers (`TOKEN_MINT` or `TOKEN_PAIR`/`DEX_LINK`).

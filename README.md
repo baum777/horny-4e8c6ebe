@@ -28,5 +28,5 @@ Supabase kommt über `@supabase/supabase-js` zum Einsatz, die Verbindungskonfigu
 - **Bilder laden nicht** → Meist ein Pfad/Proxy/Static-Serving-Problem (CWD-Abhängigkeit, wenn der Server nicht vom Repo-Root startet).
 - **Tests failen** → Oft Policy/Test-Mismatch, nicht ein fehlendes ENV-Flag; die Vitest-Konfiguration deckt `server/src/test` ab, weitere Tests liegen in `server/test`.
 
-For a detailed and factual description of the current architecture, see:
-docs/architecture_current_state.md
+For current architecture and API notes, see:
+docs/api-spec.md
