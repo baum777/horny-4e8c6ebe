@@ -5,7 +5,12 @@
  * All errors are caught and handled via composeFallback().
  */
 
-import type { HornyMatrixSelection, MemeGenPromptPack } from './types';
+import type {
+  CompositionPattern,
+  HornyMatrixSelection,
+  MemeGenPromptPack,
+  MemeTemplateKey,
+} from './types';
 
 export interface ComposeInput {
   rewritten_prompt: string;
@@ -113,7 +118,7 @@ export function composeFallback(input: ComposeFallbackInput): MemeGenPromptPack 
     ...selection,
     energy: (selection.energy ?? 1) as 1 | 2 | 3 | 4 | 5,
     pattern: (selection.pattern ?? 'A') as 'A' | 'B' | 'C',
-    template: (selection.template ?? 'top_bottom') as any,
+    template: (selection.template ?? 'top_bottom') as MemeTemplateKey,
   };
 
   // Build minimal but safe prompt
@@ -143,12 +148,12 @@ export function composeFallback(input: ComposeFallbackInput): MemeGenPromptPack 
       usedGuardrails: ['COMPOSER_FALLBACK'],
       fallback_used: true,
       fallback_stage: 'composer',
-    } as any,
+    },
   };
 }
 
-function buildTemplateSkeleton(template: string, pattern: string): string {
-  const skeletons: Record<string, Record<string, string>> = {
+function buildTemplateSkeleton(template: MemeTemplateKey, pattern: CompositionPattern): string {
+  const skeletons: Record<MemeTemplateKey, Record<CompositionPattern, string>> = {
     top_bottom: {
       A: 'single strong subject, bold silhouette, meme readable thumbnail, clean background',
       B: 'character + minimal scene hint, center focus, high contrast',
@@ -193,4 +198,3 @@ function buildCompositionDirectives(selection: HornyMatrixSelection): string {
 
   return parts.join('; ');
 }
-

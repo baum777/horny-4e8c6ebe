@@ -1,9 +1,8 @@
 export const copyContent = {
   landing: {
     hero: {
-      headline: '$Horny',
-      subline:
-        'Create → remix → compete inside the $HORNY universe, the Playground to channel the $Horny Energie to Memes',
+      headline: 'Forge memes. Earn status.',
+      subline: 'Create, remix and compete inside the $HORNY universe.',
       primaryCta: 'Start Forging',
       secondaryCta: 'proof how $horny u are - Horny Runner',
       trust: ['No wallet required', 'Free to play', 'Community driven'],
@@ -117,4 +116,3 @@ export const copyContent = {
     ],
   },
 };
-
