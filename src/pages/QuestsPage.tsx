@@ -3,8 +3,15 @@ import { TeaserLayout } from "@/components/ui/TeaserLayout";
 
 export default function QuestsPage() {
   return (
-    <PageShell page="quests" state="teaser" energy={1}>
-      <TeaserLayout 
+    <PageShell
+      spec={{
+        page: "quests",
+        flavor: "subtle",
+        energy: 1,
+        state: "teaser",
+      }}
+    >
+      <TeaserLayout
         title="Weekly Quests starting soon."
         subtitle="First come, first served. Real rewards."
       />

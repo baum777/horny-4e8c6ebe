@@ -1,35 +1,39 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-interface PageShellProps {
-  children: React.ReactNode;
+export type PageState = "active" | "teaser" | "locked";
+
+export interface PageSpec {
   page: string;
-  state?: "active" | "teaser" | "locked";
-  energy?: number;
-  flavor?: string;
+  flavor: string;
+  energy: number;
+  state?: PageState;
+  tier?: string;
 }
 
-export function PageShell({
-  children,
-  page,
-  state = "active",
-  energy = 1,
-  flavor = "default",
-}: PageShellProps) {
+interface PageShellProps {
+  children: React.ReactNode;
+  spec: PageSpec;
+}
+
+export function PageShell({ children, spec }: PageShellProps) {
   const location = useLocation();
 
   useEffect(() => {
-    document.body.dataset.page = page;
-    document.body.dataset.state = state;
-    document.body.dataset.energy = energy.toString();
-    document.body.dataset.flavor = flavor;
+    document.body.dataset.page = spec.page;
+    document.body.dataset.flavor = spec.flavor;
+    document.body.dataset.energy = spec.energy.toString();
+    document.body.dataset.state = spec.state ?? "active";
+    if (typeof spec.tier === "string") {
+      document.body.dataset.tier = spec.tier;
+    } else {
+      document.body.removeAttribute("data-tier");
+    }
 
-    // Cleanup on unmount (optional, but good practice if we want to reset)
     return () => {
-      // We don't strictly clear them to avoid flickering, 
-      // the next PageShell will overwrite them immediately.
+      // Keep attributes until next page renders (PageShell for next route will overwrite)
     };
-  }, [page, state, energy, flavor, location]);
+  }, [spec, location]);
 
   return <>{children}</>;
 }

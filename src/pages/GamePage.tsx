@@ -4,7 +4,14 @@ import { copyContent } from "@/lib/content";
 
 export default function GamePage() {
   return (
-    <PageShell page="game" state="teaser" energy={1}>
+    <PageShell
+      spec={{
+        page: "game",
+        flavor: "subtle",
+        energy: 1,
+        state: "teaser",
+      }}
+    >
       <TeaserLayout
         title="$Horny RUNNER"
         subtitle="$Horny Runner unlocking soon"

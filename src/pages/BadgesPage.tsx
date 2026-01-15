@@ -3,7 +3,14 @@ import { TeaserLayout } from "@/components/ui/TeaserLayout";
 
 export default function BadgesPage() {
   return (
-    <PageShell page="badges" state="locked" energy={1}>
+    <PageShell
+      spec={{
+        page: "badges",
+        flavor: "desaturated",
+        energy: 1,
+        state: "locked",
+      }}
+    >
       <TeaserLayout
         title="Coming Soon — stay $Horny"
         subtitle="Badges show who you are — not what you earned."

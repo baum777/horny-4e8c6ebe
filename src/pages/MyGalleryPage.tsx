@@ -3,8 +3,15 @@ import { TeaserLayout } from "@/components/ui/TeaserLayout";
 
 export default function MyGalleryPage() {
   return (
-    <PageShell page="my-gallery" state="teaser" energy={1}>
-      <TeaserLayout 
+    <PageShell
+      spec={{
+        page: "my-gallery",
+        flavor: "default",
+        energy: 1,
+        state: "teaser",
+      }}
+    >
+      <TeaserLayout
         title="Your collection is loading..."
         subtitle="Drafts. Published. Hidden."
       />

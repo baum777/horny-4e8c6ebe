@@ -3,8 +3,15 @@ import { TeaserLayout } from "@/components/ui/TeaserLayout";
 
 export default function ForgePage() {
   return (
-    <PageShell page="forge" state="teaser" energy={1}>
-      <TeaserLayout 
+    <PageShell
+      spec={{
+        page: "forge",
+        flavor: "default",
+        energy: 2,
+        state: "teaser",
+      }}
+    >
+      <TeaserLayout
         title="The Forge is warming up."
         subtitle="Create. Remix. Win."
       />
