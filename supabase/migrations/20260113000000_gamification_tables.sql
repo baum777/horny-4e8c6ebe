@@ -15,12 +15,6 @@ CREATE TABLE IF NOT EXISTS user_stats (
   current_streak INTEGER NOT NULL DEFAULT 0,
   last_active_at TIMESTAMPTZ,
   
-  -- Quiz Results
-  quiz_class TEXT,
-  degen INTEGER,
-  horny INTEGER,
-  conviction INTEGER,
-  
   -- Aggregated Counts (JSONB for flexibility)
   counts JSONB NOT NULL DEFAULT '{}'::jsonb,
   total_votes_received INTEGER NOT NULL DEFAULT 0,

@@ -131,16 +131,12 @@ export function GamificationPanel() {
               disabled={loading}
               variant="secondary"
               onClick={() =>
-                run("quiz_complete", {
-                  quizClassId: "moon-rider",
-                  quizVector: { degen: 24, horny: 26, conviction: 25 },
+                run("share", {
+                  artifactId: "a1",
                   clientNonce: crypto.randomUUID(),
                 })
               }
             >
-              Quiz Complete
-            </Button>
-            <Button disabled={loading} variant="secondary" onClick={() => run("share", { artifactId: "a1", clientNonce: crypto.randomUUID() })}>
               Share
             </Button>
           </div>

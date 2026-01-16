@@ -308,9 +308,7 @@ Outputs:
   "artifactId": "string (optional, required for vote/comment/share)",
   "idempotencyKey": "string (optional, can also be in header)",
   "receivedVotesDelta": "number (optional, for votes_received)",
-  "timeDeltaSeconds": "number (optional, for time_spent, max 3600)",
-  "quizClassId": "string (optional)",
-  "quizVector": "array (optional)"
+  "timeDeltaSeconds": "number (optional, for time_spent, max 3600)"
 }
 ```
 

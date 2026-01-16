@@ -52,11 +52,6 @@ export async function copyToClipboard(text: string): Promise<boolean> {
   }
 }
 
-// Quiz result share text
-export function getQuizShareText(className: string, level: number): string {
-  return `🔥 I'm a ${className} with a Horny Level of ${level}%!\n\nFind your crypto desire class:`;
-}
-
 // Badge share text
 export function getBadgeShareText(badgeName: string, rarity: string): string {
   return `🏆 I just unlocked the "${badgeName}" badge (${rarity}) in the Horny Meta Universe!\n\nClaim your badges:`;

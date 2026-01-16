@@ -110,7 +110,6 @@ Metriken-Endpoint (für Monitoring).
 - **votes_received**: **BLOCKIERT** von Client (nur Server-seitig)
 - **time_spent**: Erfordert `timeDeltaSeconds`, Max 3600s pro Session
 - **artifact_release**: Erfordert `artifactId` (später: Ownership-Proof)
-- **quiz_complete**: Weekly Cap (1x pro Woche)
 
 ### Caps
 

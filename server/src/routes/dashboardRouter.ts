@@ -5,12 +5,14 @@
 // - No mutations here. Keep this endpoint fast + cacheable.
 
 import { Router } from "express";
+import { createClient } from "@supabase/supabase-js";
 import type { AuthenticatedRequest } from "../middleware/auth";
 import { getTokenStats } from "../services/tokenStatsService";
 import { GamificationStoreSupabase } from "../store/gamificationStoreSupabase";
 import { getLevelFromXp } from "../services/gamification/levels";
 import { ALL_BADGES } from "../badges/unifiedBadges";
 import { config } from "../config";
+import type { Database } from "../types/supabase";
 
 type Severity = "info" | "warn" | "error";
 
@@ -78,6 +80,11 @@ function mkNotice(id: string, severity: Severity, text: string) {
 
 // Initialize store
 const store = new GamificationStoreSupabase();
+const supabaseAdmin = createClient<Database>(config.supabase.url, config.supabase.serviceRoleKey);
+
+function formatAmount(amount: number): string {
+  return `${amount} $HORNY`;
+}
 
 // --- "service adapters" (wired to real services) ---
 async function getUserContext(req: AuthenticatedRequest): Promise<{
@@ -253,10 +260,38 @@ async function fetchRewardsSnapshot(userId: string): Promise<{
   if (userId === "anon") return { pendingCount: 0, recent: [] };
 
   try {
-    // TODO: Query payout_jobs table from Supabase
-    // Example: SELECT COUNT(*) WHERE user_id = $1 AND status = 'pending'
-    //          SELECT * WHERE user_id = $1 ORDER BY created_at DESC LIMIT 10
-    return { pendingCount: 0, recent: [] };
+    const { count, error: countError } = await supabaseAdmin
+      .from("payout_jobs")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", userId)
+      .eq("status", "pending");
+
+    if (countError) {
+      console.error("Failed to fetch payout count:", countError);
+      return { pendingCount: 0, recent: [] };
+    }
+
+    const { data, error } = await supabaseAdmin
+      .from("payout_jobs")
+      .select("id, amount, created_at, status")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false })
+      .limit(10);
+
+    if (error) {
+      console.error("Failed to fetch payout jobs:", error);
+      return { pendingCount: 0, recent: [] };
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const recent = (data ?? []).map((row: any) => ({
+      id: row.id,
+      amountText: formatAmount(row.amount ?? 0),
+      createdAt: row.created_at ?? nowIso(),
+      status: (row.status ?? "pending") as "pending" | "paid" | "failed",
+    }));
+
+    return { pendingCount: count ?? 0, recent };
   } catch (e) {
     return { pendingCount: 0, recent: [] };
   }

@@ -6,6 +6,8 @@ export interface AuthenticatedRequest extends Request {
   userId?: string;
   userHandle?: string;
   userAvatar?: string;
+  userMetadata?: Record<string, unknown>;
+  appMetadata?: Record<string, unknown>;
 }
 
 /**
@@ -39,6 +41,8 @@ export async function authMiddleware(
     req.userId = user.id;
     req.userHandle = user.user_metadata?.user_name || user.user_metadata?.preferred_username || user.user_metadata?.name;
     req.userAvatar = user.user_metadata?.avatar_url;
+    req.userMetadata = user.user_metadata ?? undefined;
+    req.appMetadata = user.app_metadata ?? undefined;
 
     next();
   } catch (error) {

@@ -39,10 +39,6 @@ interface DbUserStatsRow {
   counts?: Record<string, number | string>;
   total_votes_received?: number;
   total_time_seconds?: number;
-  quiz_class?: string;
-  degen?: number;
-  horny?: number;
-  conviction?: number;
   current_streak?: number;
   last_active_at?: string;
   lifetime_horny_earned?: number;
@@ -67,10 +63,6 @@ function dbToUserStats(row: DbUserStatsRow): UserStats {
     counts,
     totalVotesReceived: row.total_votes_received || 0,
     totalTimeSeconds: row.total_time_seconds || 0,
-    quizClass: row.quiz_class,
-    degen: row.degen,
-    horny: row.horny,
-    conviction: row.conviction,
     currentStreak: row.current_streak || 0,
     lastActiveISO: row.last_active_at ? new Date(row.last_active_at).toISOString() : undefined,
     lifetimeHornyEarned: row.lifetime_horny_earned || 0,
@@ -90,10 +82,6 @@ interface DbUserStatsInsert {
   weekly_horny_earned: number;
   current_streak: number;
   last_active_at: string | null;
-  quiz_class?: string;
-  degen?: number;
-  horny?: number;
-  conviction?: number;
   counts: Record<string, unknown>;
   total_votes_received: number;
   total_time_seconds: number;
@@ -110,10 +98,6 @@ function userStatsToDb(stats: UserStats): DbUserStatsInsert {
     weekly_horny_earned: stats.weeklyHornyEarned,
     current_streak: stats.currentStreak,
     last_active_at: stats.lastActiveISO ? new Date(stats.lastActiveISO).toISOString() : null,
-    quiz_class: stats.quizClass,
-    degen: stats.degen,
-    horny: stats.horny,
-    conviction: stats.conviction,
     counts: stats.counts as Record<string, unknown>,
     total_votes_received: stats.totalVotesReceived,
     total_time_seconds: stats.totalTimeSeconds,

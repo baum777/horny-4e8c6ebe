@@ -42,14 +42,14 @@ export default function MetaForge() {
     if (selectedBase && !isBaseUnlocked(userLevel, selectedBase.id)) {
       setSelectedBase(null);
     }
-  }, [selectedBase, userLevel, clientGamificationEnabled]);
+  }, [selectedBase, userLevel]);
 
   useEffect(() => {
     if (!clientGamificationEnabled) return;
     if (!isPresetUnlocked(userLevel, selectedPreset)) {
       setSelectedPreset('HORNY_CORE_SKETCH');
     }
-  }, [selectedPreset, userLevel, clientGamificationEnabled]);
+  }, [selectedPreset, userLevel]);
 
   const handleInfuse = async () => {
     if (!selectedBase) {
