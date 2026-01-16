@@ -45,7 +45,6 @@ const BADGE_DIR = path.join(DEST, VERSION);
 const UI_DIR = path.join(BADGE_DIR, "ui");
 
 function log(...x) {
-  // eslint-disable-next-line no-console
   console.log(...x);
 }
 function vlog(...x) {

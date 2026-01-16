@@ -12,6 +12,7 @@ import { emitTelemetryEvent } from '../services/hornyMatrix/TelemetryService';
 import { MatrixTelemetry } from '../services/telemetry/MatrixTelemetry';
 import type { MatrixFlavor } from '../services/hornyMatrix/types';
 import { config } from '../config';
+import { ALLOWED_TAGS, BASE_IMAGES } from '../constants';
 import type { ForgeResponse, ForgeError, ReleaseResponse } from '../types';
 import type { AuthenticatedRequest } from '../middleware/auth';
 import { createClient } from '@supabase/supabase-js';
@@ -101,7 +102,6 @@ export class ForgeController {
     if (level >= 5) return 7;
     return 5;
   }
-
 
   private async getUserLevel(userId: string): Promise<number> {
     const { data, error } = await this.supabase
@@ -517,8 +517,15 @@ export class ForgeController {
         return;
       }
 
-      // Validate tags (should be from allowed list, but for MVP we'll just check format)
-      // TODO: Add allowed tags validation
+      const normalizedTags = tags.map((tag) => tag.trim());
+      const invalidTags = normalizedTags.filter((tag) => !ALLOWED_TAGS.includes(tag as typeof ALLOWED_TAGS[number]));
+      if (invalidTags.length > 0) {
+        res.status(400).json({
+          error: 'invalid_tags',
+          code: 'INVALID_INPUT',
+        });
+        return;
+      }
 
       // Retrieve preview bytes
       let previewBytes: Buffer;
@@ -613,7 +620,7 @@ export class ForgeController {
           id: releaseResult.artifactId,
           image_url: releaseResult.imageUrl,
           caption: caption || 'Untitled Artifact',
-          tags,
+          tags: normalizedTags,
           author_id: req.userId,
           author_handle: req.userHandle || null,
           author_avatar: req.userAvatar || null,

@@ -67,9 +67,8 @@ export default function Legal() {
               <section>
                 <h2 className="text-2xl font-bold mb-4">Privacy</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  This website uses localStorage to save your preferences, quiz results, and badge progress locally on 
-                  your device. We do not collect, store, or transmit any personal information to external servers. 
-                  Your data stays on your device.
+                  This website uses localStorage to save your preferences and badge progress locally on your device. We do
+                  not collect, store, or transmit any personal information to external servers. Your data stays on your device.
                 </p>
               </section>
 

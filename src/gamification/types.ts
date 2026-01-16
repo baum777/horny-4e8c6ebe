@@ -8,7 +8,6 @@ export type ActionType =
   | "artifact_release"
   | "meme_create"
   | "event_attend"
-  | "quiz_complete"
   | "votes_received"
   | "time_spent"
   | "streak_tick"
@@ -40,11 +39,6 @@ export type UserStats = {
   totalVotesReceived: number;
   totalTimeSeconds: number;
 
-  quizClass?: string;
-  degen?: number;
-  horny?: number;
-  conviction?: number;
-
   currentStreak: number;
   lastActiveISO?: string;
 
@@ -63,8 +57,6 @@ export type ActionContext = {
   artifactId?: string;
   receivedVotesDelta?: number;
   timeDeltaSeconds?: number;
-  quizClassId?: string;
-  quizVector?: { degen: number; horny: number; conviction: number };
   idempotencyKey: string;
 };
 

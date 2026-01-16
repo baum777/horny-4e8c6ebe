@@ -5,6 +5,9 @@
 import { Router } from "express";
 import crypto from "crypto";
 import type { AuthenticatedRequest } from "../middleware/auth";
+import { GamificationStoreSupabase } from "../store/gamificationStoreSupabase";
+import { getRule } from "../gamification/engine";
+import type { ActionType } from "../gamification/types";
 
 type Severity = "info" | "warn" | "error";
 
@@ -106,10 +109,19 @@ const ACTIONS_CATALOGUE = [
 ];
 
 const actionsRouter = Router();
+const store = new GamificationStoreSupabase();
+
+const ACTION_TO_GAMIFICATION: Record<string, ActionType> = {
+  daily_checkin: "streak_tick",
+  share_post: "share",
+  forge_event: "forge",
+};
 
 actionsRouter.get("/actions", async (req, res) => {
   try {
     const ctx = await getUserCtx(req as AuthenticatedRequest);
+    const userId = (req as AuthenticatedRequest).userId;
+    const stats = userId ? await store.getOrCreate(userId, new Date().toISOString()) : null;
 
     const userStatus: ActionsDTO["user"]["status"] = !ctx.verified
       ? "anonymous"
@@ -131,6 +143,35 @@ actionsRouter.get("/actions", async (req, res) => {
       string,
       { state: ActionsDTO["actions"][number]["state"]; cooldownEndsAt?: string; progress?: { current: number; target: number } }
     > = {};
+
+    if (stats) {
+      for (const [actionId, actionType] of Object.entries(ACTION_TO_GAMIFICATION)) {
+        const rule = getRule(actionType);
+        const dailyCap = rule.hornyCap?.daily;
+        const weeklyCap = rule.hornyCap?.weekly;
+        const dailyKey = `horny_daily_${actionType}`;
+        const weeklyKey = `horny_weekly_${actionType}`;
+
+        const dailyProgress = dailyCap !== undefined ? (stats.counts[dailyKey] ?? 0) : undefined;
+        const weeklyProgress = weeklyCap !== undefined ? (stats.counts[weeklyKey] ?? 0) : undefined;
+
+        let state: ActionsDTO["actions"][number]["state"] = "available";
+        if (dailyCap !== undefined && dailyProgress !== undefined && dailyProgress >= dailyCap) {
+          state = "completed";
+        } else if (weeklyCap !== undefined && weeklyProgress !== undefined && weeklyProgress >= weeklyCap) {
+          state = "completed";
+        }
+
+        const progress =
+          dailyCap !== undefined
+            ? { current: dailyProgress ?? 0, target: dailyCap }
+            : weeklyCap !== undefined
+              ? { current: weeklyProgress ?? 0, target: weeklyCap }
+              : undefined;
+
+        overlayStates[actionId] = { state, progress };
+      }
+    }
 
     const actions: ActionsDTO["actions"] = ACTIONS_CATALOGUE.map((a) => {
       // Base state

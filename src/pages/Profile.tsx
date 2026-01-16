@@ -71,12 +71,12 @@ export default function Profile() {
         <ArchivesNavbar />
 
         <div className="container mx-auto px-4 pt-24 pb-20">
-        {/* Profile Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="glass-card p-6 rounded-2xl mb-8 neon-border"
-        >
+          {/* Profile Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="glass-card p-6 rounded-2xl mb-8 neon-border"
+          >
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
             {/* Avatar */}
             {archivesUser.avatar ? (
@@ -167,10 +167,10 @@ export default function Profile() {
             />
           )}
         </section>
-      </div>
+        </div>
 
-    <Footer />
-    </div>
-  </PageShell>
-);
+        <Footer />
+      </div>
+    </PageShell>
+  );
 }

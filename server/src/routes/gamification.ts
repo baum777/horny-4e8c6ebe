@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { createClient } from "@supabase/supabase-js";
 import type { ActionType, ActionContext } from "../gamification/types";
 import { GamificationStoreSupabase } from "../store/gamificationStoreSupabase";
 import { applyAction, getRule } from "../gamification/engine";
@@ -8,11 +9,14 @@ import { logger } from "../utils/logger";
 import { metrics } from "../utils/metrics";
 import type { AuthenticatedRequest } from "../middleware/auth";
 import { requireAuth } from "../middleware/auth";
+import { config } from "../config";
+import type { Database } from "../types/supabase";
 
 export const gamificationRouter = Router();
 
 // Initialize store
 const store = new GamificationStoreSupabase();
+const supabaseAdmin = createClient<Database>(config.supabase.url, config.supabase.serviceRoleKey);
 
 // Get user ID from authenticated request
 function getUserId(req: AuthenticatedRequest): string {
@@ -109,6 +113,32 @@ gamificationRouter.post(
       // Step 2: Load current stats
       const prev = await store.getOrCreate(userId, nowISO);
 
+      // Step 2.5: Ownership proof for artifact_release
+      if (action === "artifact_release") {
+        const artifactId = req.body?.artifactId;
+        if (!artifactId) {
+          return res.status(400).json({ error: "artifact_release requires artifactId" });
+        }
+
+        const { data: artifact, error } = await supabaseAdmin
+          .from("artifacts")
+          .select("id, author_id")
+          .eq("id", artifactId)
+          .maybeSingle();
+
+        if (error) {
+          logger.error("artifact_release_proof_failed", { userId, error: error.message });
+          return res.status(500).json({ error: "artifact_release validation failed" });
+        }
+        if (!artifact) {
+          return res.status(403).json({ error: "artifact_release artifact not found" });
+        }
+        // @ts-expect-error - Supabase table types are not fully generated
+        if (String(artifact.author_id) !== String(userId)) {
+          return res.status(403).json({ error: "artifact_release ownership mismatch" });
+        }
+      }
+
       // Step 3: Validate action
       const validation = validateAction(action, req.body, prev, nowISO);
       if (!validation.valid) {
@@ -160,8 +190,6 @@ gamificationRouter.post(
         artifactId: req.body?.artifactId,
         receivedVotesDelta: req.body?.receivedVotesDelta,
         timeDeltaSeconds: req.body?.timeDeltaSeconds,
-        quizClassId: req.body?.quizClassId,
-        quizVector: req.body?.quizVector,
       };
 
       // Step 6: Apply action (pure function)

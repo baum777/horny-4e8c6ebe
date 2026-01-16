@@ -11,14 +11,6 @@ export interface BadgeDefinition {
 
 export const badgeDefinitions: BadgeDefinition[] = [
   {
-    id: 'quiz-complete',
-    name: 'Desire Scanned',
-    description: 'Completed the Horny Level Quiz and discovered your true class.',
-    rarity: 'Common',
-    icon: '🔮',
-    unlockCondition: 'Complete the quiz',
-  },
-  {
     id: 'all-sections',
     name: 'Deep Explorer',
     description: 'Ventured through every section of the Horny Meta Universe.',
@@ -49,14 +41,6 @@ export const badgeDefinitions: BadgeDefinition[] = [
     rarity: 'Common',
     icon: '📢',
     unlockCondition: 'Share any content',
-  },
-  {
-    id: 'meta-demon',
-    name: 'Meta Demon Class',
-    description: 'Achieved the highest Horny Level classification.',
-    rarity: 'Epic',
-    icon: '👹',
-    unlockCondition: 'Get Meta Demon in quiz',
   },
   {
     id: 'three-memes',

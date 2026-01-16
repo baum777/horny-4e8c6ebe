@@ -19,6 +19,26 @@ export const BASE_IMAGES: Record<BaseId, { file: string; description: string }> 
   },
 };
 
+export const ALLOWED_TAGS = [
+  '#CroisHorney',
+  '#EichHorney',
+  '#PopHorney',
+  '#CornyHorney',
+  '#PixelHorney',
+  '#ChromeHorney',
+  '#UniHorney',
+  '#WildHorney',
+  '#BrainHorney',
+  '#MetaHorney',
+  '#CosmicHorney',
+  '#ZenHorney',
+  '#PumpHorney',
+  '#BagHorney',
+  '#SignalHorney',
+  '#MoonHorney',
+  '#GoldHorney',
+] as const;
+
 export const PRESETS: Record<Preset, { guardrailBlock: string }> = {
   HORNY_CORE_SKETCH: {
     guardrailBlock: `TIGHT STYLE: Minimal scene complexity. Focus on the unicorn character with simple props or symbols. Keep composition centered, clean silhouette.`,

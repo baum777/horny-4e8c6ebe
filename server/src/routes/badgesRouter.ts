@@ -54,10 +54,6 @@ function getBadgeHints(unlockCondition: typeof ALL_BADGES[number]["unlockConditi
       return [`Complete ${unlockCondition.count} ${unlockCondition.action} action${unlockCondition.count > 1 ? "s" : ""}`];
     case "streak":
       return [`Maintain a ${unlockCondition.days}-day streak`, "Daily check-in counts"];
-    case "quiz_class":
-      return [`Complete quiz with class: ${unlockCondition.classId}`];
-    case "quiz_score":
-      return [`Achieve ${unlockCondition.dimension} score >= ${unlockCondition.min}`];
     case "milestone":
       return [`Reach ${unlockCondition.value} ${unlockCondition.metric}`];
     case "time_spent":
@@ -76,8 +72,6 @@ function getBadgeRarity(unlockCondition: typeof ALL_BADGES[number]["unlockCondit
       return unlockCondition.count === 1 ? "common" : unlockCondition.count <= 3 ? "uncommon" : "rare";
     case "streak":
       return unlockCondition.days <= 3 ? "common" : unlockCondition.days <= 7 ? "uncommon" : "rare";
-    case "quiz_score":
-      return "uncommon";
     case "milestone":
       return "rare";
     default:
@@ -152,20 +146,6 @@ async function fetchBadgesFromGamification(userId: string): Promise<{
             target: badge.unlockCondition.days,
           };
           break;
-        case "quiz_score": {
-          const score =
-            badge.unlockCondition.dimension === "degen"
-              ? stats.degen
-              : badge.unlockCondition.dimension === "horny"
-                ? stats.horny
-                : badge.unlockCondition.dimension === "conviction"
-                  ? stats.conviction
-                  : undefined;
-          if (score !== undefined) {
-            progress = { current: score, target: badge.unlockCondition.min };
-          }
-          break;
-        }
         case "milestone":
           progress = {
             current: stats.counts[badge.unlockCondition.metric] ?? 0,

@@ -1,5 +1,6 @@
 import type { ActionType, UserStats } from './types';
 import { GLOBAL_DAILY_HORNY_CAP, GLOBAL_WEEKLY_HORNY_CAP } from './incentives';
+import { verifySignedShareToken } from '../utils/signing';
 
 export type ValidationResult = {
   valid: boolean;
@@ -10,6 +11,7 @@ export type ActionPayload = {
   artifactId?: string;
   receivedVotesDelta?: number;
   timeDeltaSeconds?: number;
+  shareToken?: string;
   clientNonce?: string;
   idempotencyKey?: string;
 };
@@ -46,12 +48,25 @@ export function validateAction(
       }
       break;
 
-    case 'share':
+    case 'share': {
       if (!payload.artifactId) {
         return { valid: false, reason: 'share requires artifactId' };
       }
-      // TODO: Add proof validation (OAuth share proof)
+      if (!payload.shareToken) {
+        return { valid: false, reason: 'share requires shareToken' };
+      }
+      const sharePayload = verifySignedShareToken(payload.shareToken);
+      if (!sharePayload) {
+        return { valid: false, reason: 'share token invalid or expired' };
+      }
+      if (sharePayload.actor_user_id !== userStats.userId) {
+        return { valid: false, reason: 'share token actor mismatch' };
+      }
+      if (sharePayload.subject_id && sharePayload.subject_id !== payload.artifactId) {
+        return { valid: false, reason: 'share token subject mismatch' };
+      }
       break;
+    }
 
     case 'votes_received':
       // CRITICAL: Do not accept from client in production
