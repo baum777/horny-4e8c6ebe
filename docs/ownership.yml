@@ -1,19 +1,19 @@
 backend:
-  doc: docs/api-spec.md
+  doc: docs/ARCHITECTURE.md
   paths:
     - server/**
 frontend:
-  doc: docs/page-spec.md
+  doc: docs/ARCHITECTURE.md
   paths:
     - src/**
     - public/**
 assets:
-  doc: docs/api-spec.md
+  doc: docs/ARCHITECTURE.md
   paths:
     - public/**
     - server/public/**
 gamification:
-  doc: docs/api-spec.md
+  doc: docs/ARCHITECTURE.md
   paths:
     - lib/gamification/**
     - server/src/gamification/**
