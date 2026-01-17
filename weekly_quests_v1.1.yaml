@@ -247,4 +247,5 @@ notes:
   - "Boosts never grant direct tokens; they only affect quest completion paths and bonus pool distribution."
   - "All boost computation and eligibility checks are server-side; UI displays derived progress only."
   - "Bonus distribution should be proportional by user_score / total_score, capped per user, and included in weekly cap."
+  - "unique_raters_week drives voting eligibility; no verified voter proof is required in v1.1."
 
