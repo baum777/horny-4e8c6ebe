@@ -103,7 +103,11 @@ const ACTIONS_CATALOGUE = [
       label: "Forge",
       method: "POST" as const,
       path: "/api/forge",
-      body: { type: "signal" },
+      body: {
+        preset: "HORNY_CORE_SKETCH",
+        base_id: "base-01",
+        user_input: "signal",
+      },
     },
   },
 ];

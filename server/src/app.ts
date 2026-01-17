@@ -4,6 +4,7 @@ import cors from 'cors';
 import { config } from './config';
 import type { ForgeController } from './controllers/ForgeController';
 import { authMiddleware as defaultAuthMiddleware, requireAuth as defaultRequireAuth, type AuthenticatedRequest } from './middleware/auth';
+import { forgeRateLimit } from './middleware/rateLimit';
 import createEventRouter from './routes/event';
 import createOgRouter from './routes/og';
 import { createShareRouters } from './routes/share';
@@ -58,9 +59,9 @@ export async function createApp(deps: AppDependencies = {}) {
   });
 
   // API Routes
-  app.post('/api/forge', requireAuth, (req, res) => forgeController.forge(req as AuthenticatedRequest, res));
-  app.post('/api/forge/preview', requireAuth, (req, res) => forgeController.forge(req as AuthenticatedRequest, res));
-  app.post('/api/forge/release', requireAuth, (req, res) => forgeController.release(req as AuthenticatedRequest, res));
+  app.post('/api/forge', requireAuth, forgeRateLimit, (req, res) => forgeController.forge(req as AuthenticatedRequest, res));
+  app.post('/api/forge/preview', requireAuth, forgeRateLimit, (req, res) => forgeController.forge(req as AuthenticatedRequest, res));
+  app.post('/api/forge/release', requireAuth, forgeRateLimit, (req, res) => forgeController.release(req as AuthenticatedRequest, res));
   app.use('/api', memePoolRouter);
   app.use('/api', eventRouter);
   app.use('/api', shareRouters.shareApiRouter);

@@ -30,7 +30,6 @@ async function createForgeControllerWithMocks() {
     checkQuota: (params: { userId: string; key: string; limit: number }) => Promise<{ allowed: boolean; remaining: number }>;
     imageGen: { generate: ReturnType<typeof vi.fn> };
     storage: { storePreview: ReturnType<typeof vi.fn> };
-    moderation: { moderateText: ReturnType<typeof vi.fn> };
     supabase: { from: (table: string) => { insert: ReturnType<typeof vi.fn> } };
   };
 
@@ -51,9 +50,6 @@ async function createForgeControllerWithMocks() {
         previewUrl: `https://cdn.example.com/preview-${generationCounter}.png`,
       };
     }),
-  };
-  controllerAny.moderation = {
-    moderateText: vi.fn().mockResolvedValue({ status: 'pass', reasons: [] }),
   };
   controllerAny.supabase = {
     from: (_table: string) => ({
@@ -150,6 +146,72 @@ describe('forge integration', () => {
     const previewEvents = recordSpy.mock.calls.filter(([payload]) => payload.event_type === 'matrix_preview_created');
     expect(previewEvents).toHaveLength(1);
     clearRequestTracking(previewRequestId);
+  });
+
+  it('allows provocative input in preview', async () => {
+    const { createApp } = await import('../app');
+    const forgeController = await createForgeControllerWithMocks();
+    const app = await createApp({
+      forgeController,
+      authMiddleware: createTestAuthMiddleware(),
+    });
+
+    const session = createTestSession('user-3');
+    const res = await request(app)
+      .post('/api/forge')
+      .set(session.headers)
+      .send({
+        base_id: 'base-01',
+        preset: 'HORNY_CORE_SKETCH',
+        user_input: 'nsfw chaotic meme idea',
+      });
+
+    expect(res.status).toBe(200);
+  });
+
+  it('sanitizes PII terms in input', async () => {
+    const { createApp } = await import('../app');
+    const forgeController = await createForgeControllerWithMocks();
+    const app = await createApp({
+      forgeController,
+      authMiddleware: createTestAuthMiddleware(),
+    });
+
+    const session = createTestSession('user-4');
+    const res = await request(app)
+      .post('/api/forge')
+      .set(session.headers)
+      .send({
+        base_id: 'base-01',
+        preset: 'HORNY_CORE_SKETCH',
+        user_input: 'email phone address',
+      });
+
+    expect(res.status).toBe(200);
+    expect(res.body.sanitized_input).toContain('redacted');
+    expect(res.body.sanitized_input).not.toContain('email');
+  });
+
+  it('rejects technically empty input', async () => {
+    const { createApp } = await import('../app');
+    const forgeController = await createForgeControllerWithMocks();
+    const app = await createApp({
+      forgeController,
+      authMiddleware: createTestAuthMiddleware(),
+    });
+
+    const session = createTestSession('user-5');
+    const res = await request(app)
+      .post('/api/forge')
+      .set(session.headers)
+      .send({
+        base_id: 'base-01',
+        preset: 'HORNY_CORE_SKETCH',
+        user_input: '   ',
+      });
+
+    expect(res.status).toBe(400);
+    expect(res.body.code).toBe('PROMPT_REJECTED');
   });
 
   it('returns legacy defaults for missing matrix_meta', async () => {

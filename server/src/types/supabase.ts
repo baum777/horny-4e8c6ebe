@@ -11,8 +11,6 @@ export interface Database {
           author_avatar: string | null;
           image_url: string;
           tags: string[];
-          moderation_status: string | null;
-          moderation_reasons: Record<string, unknown> | null;
           brand_similarity: number | null;
           base_match_id: string | null;
           safety_checked_at: string | null;
@@ -26,8 +24,6 @@ export interface Database {
           author_avatar?: string | null;
           image_url: string;
           tags: string[];
-          moderation_status?: string | null;
-          moderation_reasons?: Record<string, unknown> | null;
           brand_similarity?: number | null;
           base_match_id?: string | null;
           safety_checked_at?: string | null;
@@ -41,8 +37,6 @@ export interface Database {
           author_avatar?: string | null;
           image_url?: string;
           tags?: string[];
-          moderation_status?: string | null;
-          moderation_reasons?: Record<string, unknown> | null;
           brand_similarity?: number | null;
           base_match_id?: string | null;
           safety_checked_at?: string | null;
@@ -81,8 +75,6 @@ export interface Database {
           user_id: string;
           base_id: string;
           preset: string;
-          moderation_status: string | null;
-          moderation_reasons: Record<string, unknown> | null;
           brand_similarity: number | null;
           base_match_id: string | null;
           safety_checked_at: string | null;
@@ -93,8 +85,6 @@ export interface Database {
           user_id: string;
           base_id: string;
           preset: string;
-          moderation_status?: string | null;
-          moderation_reasons?: Record<string, unknown> | null;
           brand_similarity?: number | null;
           base_match_id?: string | null;
           safety_checked_at?: string | null;
@@ -105,8 +95,6 @@ export interface Database {
           user_id?: string;
           base_id?: string;
           preset?: string;
-          moderation_status?: string | null;
-          moderation_reasons?: Record<string, unknown> | null;
           brand_similarity?: number | null;
           base_match_id?: string | null;
           safety_checked_at?: string | null;
