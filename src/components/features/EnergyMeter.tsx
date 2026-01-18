@@ -2,26 +2,28 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Flame } from 'lucide-react';
-import { getHornyMeter, setHornyMeter, addToHornyMeter, unlockBadge } from '@/lib/storage';
+import { getEnergyMeter, setEnergyMeter, addToEnergyMeter, unlockBadge } from '@/lib/storage';
+import { useCopy } from '@/lib/theme/copy';
 
 // Messages that change based on meter level
-const getMeterMessage = (level: number): string => {
-  if (level >= 100) return 'MAXIMUM HORNY';
-  if (level >= 80) return 'UNSTABLE DESIRE';
-  if (level >= 60) return 'ELEVATED';
-  if (level >= 40) return 'WARMING UP';
-  if (level >= 20) return 'AWAKENING';
-  return 'DORMANT';
+const getMeterMessage = (level: number, t: (key: string) => string): string => {
+  if (level >= 100) return t('energyMeter.status.max');
+  if (level >= 80) return t('energyMeter.status.high');
+  if (level >= 60) return t('energyMeter.status.mediumHigh');
+  if (level >= 40) return t('energyMeter.status.medium');
+  if (level >= 20) return t('energyMeter.status.low');
+  return t('energyMeter.status.idle');
 };
 
-export default function HornyMeter() {
+export default function EnergyMeter() {
+  const t = useCopy();
   const [level, setLevel] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
   const [showPulse, setShowPulse] = useState(false);
 
   useEffect(() => {
     // Load initial level
-    setLevel(getHornyMeter());
+    setLevel(getEnergyMeter());
 
     // Track time on page
     const startTime = Date.now();
@@ -32,7 +34,7 @@ export default function HornyMeter() {
       }
       // Add 1% every 15 seconds
       if (secondsElapsed > 0 && secondsElapsed % 15 === 0) {
-        const newLevel = addToHornyMeter(1);
+        const newLevel = addToEnergyMeter(1);
         setLevel(newLevel);
         setShowPulse(true);
         setTimeout(() => setShowPulse(false), 500);
@@ -45,7 +47,7 @@ export default function HornyMeter() {
       const scrollPercent = (window.scrollY / scrollHeight) * 100;
       
       if (scrollPercent > 80) {
-        const newLevel = addToHornyMeter(2);
+        const newLevel = addToEnergyMeter(2);
         setLevel(newLevel);
       }
     };
@@ -68,14 +70,18 @@ export default function HornyMeter() {
   useEffect(() => {
     const handleMeterAdd = (e: Event) => {
       const custom = e as CustomEvent<number>;
-      const newLevel = addToHornyMeter(custom.detail);
+      const newLevel = addToEnergyMeter(custom.detail);
       setLevel(newLevel);
       setShowPulse(true);
       setTimeout(() => setShowPulse(false), 500);
     };
 
+    window.addEventListener('energy-meter-add', handleMeterAdd);
     window.addEventListener('horny-meter-add', handleMeterAdd);
-    return () => window.removeEventListener('horny-meter-add', handleMeterAdd);
+    return () => {
+      window.removeEventListener('energy-meter-add', handleMeterAdd);
+      window.removeEventListener('horny-meter-add', handleMeterAdd);
+    };
   }, []);
 
   const glowIntensity = Math.min(30, level / 3);
@@ -129,14 +135,14 @@ export default function HornyMeter() {
               exit={{ opacity: 0, y: 10, scale: 0.9 }}
               className="absolute bottom-full right-0 mb-2 w-48 p-4 rounded-xl bg-card border border-border"
             >
-              <h4 className="text-xs font-semibold text-muted-foreground mb-2">HORNY METER</h4>
+              <h4 className="text-xs font-semibold text-muted-foreground mb-2">{t('energyMeter.title')}</h4>
               
               {/* Progress bar */}
               <div className="h-3 rounded-full bg-muted overflow-hidden mb-2">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${level}%` }}
-                  className="h-full bg-gradient-horny"
+                className="h-full bg-gradient-brand"
                 />
               </div>
 
@@ -147,11 +153,11 @@ export default function HornyMeter() {
                   color: level >= 80 ? 'hsl(var(--secondary))' : level >= 50 ? 'hsl(var(--primary))' : 'hsl(var(--muted-foreground))',
                 }}
               >
-                {getMeterMessage(level)}
+                {getMeterMessage(level, t)}
               </p>
 
               <p className="text-xs text-muted-foreground text-center mt-2">
-                +Scroll +Time +Actions
+                {t('energyMeter.hint')}
               </p>
             </motion.div>
           )}
@@ -162,6 +168,7 @@ export default function HornyMeter() {
 }
 
 // Helper to dispatch meter add events
-export function addHornyMeter(amount: number) {
+export function addEnergyMeter(amount: number) {
+  window.dispatchEvent(new CustomEvent('energy-meter-add', { detail: amount }));
   window.dispatchEvent(new CustomEvent('horny-meter-add', { detail: amount }));
 }

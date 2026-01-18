@@ -1,10 +1,10 @@
-import { Router } from 'express';
+import { Router, type Request, type Response } from 'express';
 import fs from 'node:fs';
 import path from 'node:path';
 
-export const memePoolRouter = Router();
+export const assetPoolRouter = Router();
 
-memePoolRouter.get('/meme-pool', (_req, res) => {
+const handleAssetPool = (_req: Request, res: Response) => {
   const dir = path.join(process.cwd(), 'server', 'public', 'horny_base');
 
   let files: string[] = [];
@@ -19,4 +19,7 @@ memePoolRouter.get('/meme-pool', (_req, res) => {
   }
 
   res.json({ files });
-});
+};
+
+assetPoolRouter.get('/meme-pool', handleAssetPool);
+assetPoolRouter.get('/asset-pool', handleAssetPool);

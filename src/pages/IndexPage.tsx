@@ -4,8 +4,8 @@ import Footer from '@/components/layout/Footer';
 import Hero from '@/components/home/Hero';
 import LoreSection from '@/components/home/LoreSection';
 import InteractPreview from '@/components/home/InteractPreview';
-import HornyMeter from '@/components/features/HornyMeter';
-import MemeBackground from '@/components/MemeBackground';
+import EnergyMeter from '@/components/features/EnergyMeter';
+import SurfaceBackground from '@/components/SurfaceBackground';
 import { addSectionVisited, unlockBadge } from '@/lib/storage';
 import { PageShell } from '@/components/layout/PageShell';
 
@@ -43,7 +43,7 @@ export default function Index() {
       }}
     >
       <div className="min-h-screen bg-background relative overflow-hidden">
-        <MemeBackground count={9} spawnEveryMs={850} />
+        <SurfaceBackground count={9} spawnEveryMs={850} />
         {/* Background noise texture */}
         <div className="fixed inset-0 pointer-events-none opacity-[0.015]">
           <svg className="w-full h-full">
@@ -53,7 +53,7 @@ export default function Index() {
             <rect width="100%" height="100%" filter="url(#noise)" />
           </svg>
         </div>
-        <MemeBackground />
+        <SurfaceBackground />
 
         <Navbar />
         
@@ -73,7 +73,7 @@ export default function Index() {
 
         <Footer />
         
-        <HornyMeter />
+        <EnergyMeter />
       </div>
     </PageShell>
   );

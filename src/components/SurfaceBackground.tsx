@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FloatingImages } from "./FloatingImages";
 
-export default function MemeBackground({
+export default function SurfaceBackground({
   count = 9,
   spawnEveryMs = 850,
 }: {
@@ -13,7 +13,7 @@ export default function MemeBackground({
   useEffect(() => {
     let active = true;
 
-    fetch("/api/meme-pool")
+    fetch("/api/asset-pool")
       .then((res) => res.json())
       .then((data) => {
         if (!active) return;

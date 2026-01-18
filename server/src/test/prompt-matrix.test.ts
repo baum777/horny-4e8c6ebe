@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { SafetyRewrite } from '../services/hornyMatrix/SafetyRewrite';
-import { HornyMatrixEngine } from '../services/hornyMatrix/HornyMatrixEngine';
-import { MemePromptComposer } from '../services/hornyMatrix/MemePromptComposer';
-import { scoreMatrix } from '../services/hornyMatrix/scoring';
+import { SafetyRewrite } from '../services/promptMatrix/SafetyRewrite';
+import { PromptMatrixEngine } from '../services/promptMatrix/PromptMatrixEngine';
+import { PromptComposer } from '../services/promptMatrix/PromptComposer';
+import { scoreMatrix } from '../services/promptMatrix/scoring';
 import { MAX_INPUT_LENGTH } from '../constants';
 
 describe('SafetyRewrite', () => {
@@ -27,18 +27,18 @@ describe('SafetyRewrite', () => {
   });
 });
 
-describe('HornyMatrixEngine', () => {
+describe('PromptMatrixEngine', () => {
   it('clamps energy by level', () => {
-    const engine = new HornyMatrixEngine();
+    const engine = new PromptMatrixEngine();
     const { energy, clamped } = engine.clampEnergy(2, 4);
     expect(energy).toBe(2);
     expect(clamped).toBe(true);
   });
 });
 
-describe('MemePromptComposer', () => {
+describe('PromptComposer', () => {
   it('includes brand directives in prompt', () => {
-    const composer = new MemePromptComposer();
+    const composer = new PromptComposer();
     const promptPack = composer.compose({
       rewrittenPrompt: 'cosmic doodle',
       selection: {

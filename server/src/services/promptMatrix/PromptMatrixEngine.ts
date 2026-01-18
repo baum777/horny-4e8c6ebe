@@ -1,6 +1,7 @@
-import type { HornyMatrixNudges, HornyMatrixSelection, MatrixFlavor, MatrixIntent, MatrixPattern, RewriteMode } from './types';
+import type { PromptMatrixNudges, PromptMatrixSelection, MatrixFlavor, MatrixIntent, MatrixPattern, RewriteMode, Energy } from './types';
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+
 
 const pickIntent = (prompt: string): MatrixIntent => {
   const lower = prompt.toLowerCase();
@@ -51,7 +52,7 @@ const buildContext = (intent: MatrixIntent, energy: number, flavor: MatrixFlavor
   return context.slice(0, pattern === 'A' ? 2 : pattern === 'B' ? 3 : 4);
 };
 
-export class HornyMatrixEngine {
+export class PromptMatrixEngine {
   getEnergyCap(userLevel: number): number {
     if (userLevel >= 7) return 5;
     if (userLevel >= 5) return 4;
@@ -59,20 +60,21 @@ export class HornyMatrixEngine {
     return 2;
   }
 
-  clampEnergy(userLevel: number, requested?: number): { energy?: number; clamped: boolean } {
+  clampEnergy(userLevel: number, requested?: number): { energy?: Energy; clamped: boolean } {
     if (typeof requested !== 'number') return { energy: undefined, clamped: false };
     const cap = this.getEnergyCap(userLevel);
-    return { energy: Math.min(requested, cap), clamped: requested > cap };
+    const val = Math.min(requested, cap);
+    return { energy: val as Energy, clamped: requested > cap };
   }
 
   select(params: {
     userPrompt: string;
-    nudges?: HornyMatrixNudges;
+    nudges?: PromptMatrixNudges;
     flags?: string[];
-  }): HornyMatrixSelection {
+  }): PromptMatrixSelection {
     const { userPrompt, nudges, flags = [] } = params;
 
-    const energy = clamp(nudges?.energy ?? 3, 1, 5);
+    const energy = clamp(nudges?.energy ?? 3, 1, 5) as Energy;
     const intent = pickIntent(userPrompt);
     const flavor = nudges?.flavor ?? pickFlavor(userPrompt, 'absurdist');
     const pattern: MatrixPattern = energy <= 2 ? 'A' : energy <= 4 ? 'B' : 'C';
@@ -89,8 +91,8 @@ export class HornyMatrixEngine {
     };
   }
 
-  selectSafeDefault(userPrompt: string): HornyMatrixSelection {
-    const energy = 1;
+  selectSafeDefault(userPrompt: string): PromptMatrixSelection {
+    const energy: Energy = 1;
     const intent = pickIntent(userPrompt);
     const flavor = pickFlavor(userPrompt, 'clean');
     const pattern: MatrixPattern = 'A';

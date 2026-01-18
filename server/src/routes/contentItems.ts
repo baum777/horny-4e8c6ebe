@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { createClient } from '@supabase/supabase-js';
 import { config } from '../config';
 import type { Database } from '../types/supabase';
-import { normalizeMatrixMeta } from '../services/hornyMatrix/LegacyRecordsHandler';
+import { normalizeMatrixMeta } from '../services/promptMatrix/LegacyRecordsHandler';
 
 type SupabaseAdmin = ReturnType<typeof createClient<Database>>;
 
@@ -24,7 +24,7 @@ function normalizeScores(scores: unknown) {
   };
 }
 
-export default function createMemesRouter(supabaseAdmin?: SupabaseAdmin) {
+export default function createContentItemsRouter(supabaseAdmin?: SupabaseAdmin) {
   const router = Router();
   const client =
     supabaseAdmin ?? createClient<Database>(config.supabase.url, config.supabase.serviceRoleKey);

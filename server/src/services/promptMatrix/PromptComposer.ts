@@ -1,5 +1,5 @@
 /**
- * MemePromptComposer - Composes prompts from HornyMatrix selections
+ * PromptComposer - Composes prompts from PromptMatrix selections
  *
  * CRITICAL: This service MUST never fail without producing a prompt with Brand Directives.
  * All errors are caught and handled via composeFallback().
@@ -36,12 +36,12 @@ type PromptPack = {
   guardrailFlags: string[];
 };
 
-export class MemePromptComposer {
+export class PromptComposer {
   compose(input: ComposerInput): PromptPack {
     try {
       return this.buildPrompt(input);
     } catch (error) {
-      console.error('[MemePromptComposer] compose() error:', error);
+      console.error('[PromptComposer] compose() error:', error);
       return this.composeFallback(input);
     }
   }

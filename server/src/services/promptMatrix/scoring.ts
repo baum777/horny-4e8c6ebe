@@ -1,9 +1,9 @@
-import type { HornyMatrixSelection, MatrixScores } from './types';
+import type { PromptMatrixSelection, MatrixScores } from './types';
 
 const clamp = (value: number) => Math.max(0, Math.min(1, value));
 
 export function scoreMatrix(params: {
-  selection: HornyMatrixSelection;
+  selection: PromptMatrixSelection;
   flags: string[];
   rewrittenPrompt: string;
 }): MatrixScores {
